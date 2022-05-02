@@ -385,7 +385,7 @@ describe('interactions', () => {
     })
   })
 
-  describe.only('setFormFieldValue', () => {
+  describe('setFormFieldValue', () => {
     const test = () => {
       const newTrackName = { ...trackName, value: 'Pretender' }
       setFormFieldValue(newTrackName)

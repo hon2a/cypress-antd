@@ -217,7 +217,7 @@ describe('getTableCell', () => {
   })
 })
 
-describe.only('getTableLoadingIndicator', () => {
+describe('getTableLoadingIndicator', () => {
   it('finds loading indicator', () => {
     renderTable({ loading: true })
     getTableLoadingIndicator().should('be.visible')
