@@ -49,7 +49,18 @@ export function getFormField({ label, ...options }: FormFieldOptions & CommonOpt
   const opts = logAndMute('getFormField', label, options)
   return isUndefined(label)
     ? cy.get('.ant-form-item', opts)
-    : getFormFieldLabel({ label, ...opts }).closest('.ant-form-item', opts)
+    : getFormFieldLabel({ label, ...opts })
+          // Workaround for https://github.com/cypress-io/cypress/issues/21303.
+          .should(() => {
+            // This empty assertion prevents Cypress from failing when the label does not exist.
+          })
+          .then($label => {
+            // If the label wasn't found, do the query again but this time with the existence check on.
+            if ($label.length === 0) {
+              return getFormFieldLabel({ label, ...opts })
+            }
+            return cy.wrap($label).closest('.ant-form-item', opts)
+          })
 }
 
 type FormInputOptions = FormFieldOptions & { type?: FieldType }
