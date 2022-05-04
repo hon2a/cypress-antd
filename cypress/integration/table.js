@@ -161,11 +161,13 @@ describe('getTableColumnSorter', () => {
 
   it('finds column sorter by column label', () => {
     getTableColumnSorter(idLabel).should('not.exist')
-    getTableColumnSorter(nameLabel).should('be.visible').click().should('have.class', 'active')
+    // Force this because the descending sorter has a negative margin and partially covers the ascending sorter.
+    getTableColumnSorter(nameLabel).should('be.visible').click({ force: true }).should('have.class', 'active')
   })
 
   it('finds column sorter for specific sort order', () => {
-    getTableColumnSorter(1).click()
+    // Force this because the descending sorter has a negative margin and partially covers the ascending sorter.
+    getTableColumnSorter(1).click({ force: true })
     getTableColumnSorter(1, { sortOrder: SORT_ORDER.DESCENDING }).should('not.have.class', 'active')
   })
 })
@@ -217,7 +219,7 @@ describe('getTableCell', () => {
   })
 })
 
-describe.only('getTableLoadingIndicator', () => {
+describe('getTableLoadingIndicator', () => {
   it('finds loading indicator', () => {
     renderTable({ loading: true })
     getTableLoadingIndicator().should('be.visible')
